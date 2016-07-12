@@ -6,8 +6,8 @@
 ;;; Code:
 
 (require 'undercover)
-(undercover "vs-comment-mode.el")
-
+(undercover "vs-comment-mode.el"
+            (:report-file "/tmp/coverage.json"))
 (require 'f)
 (require 'ert)
 
