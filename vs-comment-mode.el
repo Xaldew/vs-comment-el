@@ -106,10 +106,10 @@
 
 
 (define-minor-mode vs-comment-mode
+  "Minor mode to highlight comments similar to visual studio."
   :global nil
   :init-value nil
   :lighter ""
-  "Minor mode to highlight comments similar to visual studio."
   (if vs-comment-mode
       (vs-comment--turn-on)
     (vs-comment--turn-off)))
