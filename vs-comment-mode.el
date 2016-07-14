@@ -30,6 +30,7 @@
 
 
 (require 'newcomment)
+(require 'font-lock)
 
 
 (defface vs-comment-strike-through
@@ -62,8 +63,10 @@
   :group 'comments)
 
 
-(defvar-local vs-comment-keywords nil
+(defvar vs-comment-keywords nil
   "List of dynamic font-lock keywords such as multi-character comments.")
+
+(make-variable-buffer-local 'vs-comment-keywords)
 
 
 (defun vs-comment--create-keywords (modifier face)
@@ -90,19 +93,28 @@
       (setq keywords (append keywords entry)))))
 
 
+(defun vs-comment--font-lock-flush ()
+  "Compatibility layer around `font-lock-flush'."
+  (if (fboundp 'font-lock-flush)
+      (progn
+        (font-lock-flush)
+        (font-lock-ensure))
+    (when font-lock-mode
+      (with-no-warnings
+        (font-lock-fontify-buffer)))))
+
+
 (defun vs-comment--turn-on ()
   "Turn on `vs-comment-mode'."
   (setq vs-comment-keywords (vs-comment--create-keyword-list))
   (font-lock-add-keywords nil vs-comment-keywords)
-  (font-lock-flush (point-min) (point-max))
-  (font-lock-ensure (point-min) (point-max)))
+  (vs-comment--font-lock-flush))
 
 
 (defun vs-comment--turn-off ()
   "Turn off `vs-comment-mode'."
   (font-lock-remove-keywords nil vs-comment-keywords)
-  (font-lock-flush (point-min) (point-max))
-  (font-lock-ensure (point-min) (point-max)))
+  (vs-comment--font-lock-flush))
 
 
 (define-minor-mode vs-comment-mode
