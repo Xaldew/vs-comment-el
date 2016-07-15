@@ -31,6 +31,7 @@
 
 (require 'newcomment)
 (require 'font-lock)
+(require 'font-core)
 
 
 (defface vs-comment-strike-through
