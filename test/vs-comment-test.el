@@ -26,26 +26,52 @@
 ;;; Code:
 
 (require 'vs-comment-init)
-(require 'faceup)
+(require 'cl)
 
 
-(defun vs-comment-font-lock-test-facit (file mode)
-  "Test that FILE is fontified as the `file'.faceup file describes.
-
-MODE is the major mode to use for the test."
-  (faceup-test-font-lock-file mode
-                              (concat
-                               (file-name-as-directory
-                                vs-comment-test/test-path)
-                               file)))
-(faceup-defexplainer vs-comment-font-lock-test-facit)
+(defun vs-comment--face-p (pos faces)
+  "Return non-nil if any of the faces at POS is present in FACES."
+  (let ((f (get-text-property pos 'face)))
+    (cl-intersection f (list faces))))
 
 
-(ert-deftest vs-comment-font-lock-file-test ()
-  (add-hook 'c++-mode-hook    #'vs-comment-mode)
+(defun vs-comment--location-test (file mode locations faces)
+  "Test if the nth point in FILE with major MODE LOCATIONS contain FACES.
+
+The nth point in LOCATION must contain the face at the nth face
+in FACES for this test to pass."
+  (with-temp-buffer
+    (insert-file-contents file)
+    (funcall mode)
+    (cl-every #'identity (cl-mapcar #'vs-comment--face-p locations faces))))
+
+
+(ert-deftest vs-comment--python-test ()
   (add-hook 'python-mode-hook #'vs-comment-mode)
-  (should (vs-comment-font-lock-test-facit "main.py"  'python-mode))
-  (should (vs-comment-font-lock-test-facit "main.cpp" 'c++-mode)))
+  (let* ((dir (file-name-as-directory vs-comment-test/test-path))
+         (file (concat dir "main.py"))
+         (locations '(81 108 194 260))
+         (faces '(vs-comment-important
+                  vs-comment-strike-through
+                  vs-comment-question
+                  vs-comment-todo)))
+    (should (vs-comment--location-test file #'python-mode locations faces))))
+
+
+(ert-deftest vs-comment--c++-test ()
+  (add-hook 'c++-mode-hook #'vs-comment-mode)
+  (let* ((dir (file-name-as-directory vs-comment-test/test-path))
+         (file (concat dir "main.cpp"))
+         (locations '(48 90 150 187 264 301 331 354))
+         (faces '(vs-comment-important
+                  vs-comment-important
+                  vs-comment-question
+                  vs-comment-question
+                  vs-comment-todo
+                  vs-comment-todo
+                  vs-comment-strike-through
+                  vs-comment-strike-through)))
+    (should (vs-comment--location-test file #'c++-mode locations faces))))
 
 
 (provide 'vs-comment-test)
