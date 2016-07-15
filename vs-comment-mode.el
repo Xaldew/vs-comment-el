@@ -95,11 +95,11 @@
 
 (defun vs-comment--font-lock-flush ()
   "Compatibility layer around `font-lock-flush'."
-  (if (fboundp 'font-lock-flush)
-      (progn
-        (font-lock-flush)
-        (font-lock-ensure))
-    (when font-lock-mode
+  (when font-lock-mode
+    (if (fboundp 'font-lock-flush)
+        (progn
+          (font-lock-flush)
+          (font-lock-ensure))
       (with-no-warnings
         (font-lock-fontify-buffer)))))
 

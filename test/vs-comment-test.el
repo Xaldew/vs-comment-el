@@ -26,6 +26,7 @@
 ;;; Code:
 
 (require 'vs-comment-init)
+(require 'font-lock)
 (require 'cl)
 
 
@@ -43,6 +44,8 @@ in FACES for this test to pass."
   (with-temp-buffer
     (insert-file-contents file)
     (funcall mode)
+    (font-lock-mode)
+    (font-lock-fontify-buffer)
     (cl-every #'identity (cl-mapcar #'vs-comment--face-p locations faces))))
 
 
