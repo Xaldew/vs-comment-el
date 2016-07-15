@@ -39,12 +39,12 @@
   :group 'faces)
 
 (defface vs-comment-important
-  '((t (:foreground "#00ff00")))
+  '((t (:foreground "#ff0000")))
   "Important comment highlighting."
   :group 'faces)
 
 (defface vs-comment-question
-  '((t (:foreground "#ff0000")))
+  '((t (:foreground "#00ff00")))
   "Question comment highlighting."
   :group 'faces)
 
@@ -56,8 +56,8 @@
 
 (defcustom vs-comment-keyword-list
   `(("x"    'vs-comment-strike-through)
-    ("\\?"  'vs-comment-important)
-    ("!"    'vs-comment-question)
+    ("\\?"  'vs-comment-question)
+    ("!"    'vs-comment-important)
     ("TODO" 'vs-comment-todo))
   "List of comment modifying keywords."
   :group 'comments)
