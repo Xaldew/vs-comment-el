@@ -57,15 +57,15 @@ faces have been removed."
   (with-temp-buffer
     (insert-file-contents file)
     (let (ret0 ret1)
+      (global-font-lock-mode t)
+      (font-lock-mode t)
       (funcall mode)
       ;; Enable `vs-comment-mode'.
-      (vs-comment-mode 1)
-      (font-lock-mode)
+      (vs-comment-mode t)
       (font-lock-fontify-buffer)
       (setq ret0 (vs-comment--location-test locations faces))
       ;; Disable `vs-comment-mode'.
       (vs-comment-mode -1)
-      (font-lock-mode)
       (font-lock-fontify-buffer)
       (setq ret1 (not (vs-comment--location-test locations faces)))
       (and ret0 ret1))))
