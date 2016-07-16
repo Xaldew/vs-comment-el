@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Xaldew/vs-comment-el.svg?branch=master)](https://travis-ci.org/Xaldew/vs-comment-el)
+[![Coverage Status](https://coveralls.io/repos/github/Xaldew/vs-comment-el/badge.svg?branch=master)](https://coveralls.io/github/Xaldew/vs-comment-el?branch=master)
+
 # vs-comment-mode.el
 
  Visual Studio Comments in Emacs!
