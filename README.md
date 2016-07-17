@@ -6,7 +6,9 @@
  Visual Studio Comments in Emacs!
 
 This is a small package intended to replicate the enhanced comment styles used
-in the Visual Studio editor.
+in the Visual Studio extension [Better Comments][1].
+
+[1]: https://visualstudiogallery.msdn.microsoft.com/2856358f-a098-4237-b044-260443c9a303
 
 
 ## Example
